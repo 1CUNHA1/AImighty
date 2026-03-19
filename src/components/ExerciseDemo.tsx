@@ -24,8 +24,11 @@ export function getDemoUrl(name: string, id?: string): string | null {
   const normalized = name.toLowerCase()
     .trim()
     .replace(/\s+/g, ' ')
+    .replace(/\([^)]+\)/g, '') // Remove bracketed text like (Two-Hand)
     .replace('dumbell', 'dumbbell')
-    .replace('flies', 'fly');
+    .replace('flies', 'fly')
+    .replace(/\boverhead\b/g, '') // Disregard overhead modifier for fallback matching
+    .trim();
 
   // 2. Try exact match in mapping
   let foundId = EXERCISE_MAPPING[normalized];
@@ -37,14 +40,16 @@ export function getDemoUrl(name: string, id?: string): string | null {
 
   // 4. Fallback: Word-level or substring matching
   if (!foundId) {
-    const normalizedWords = normalized.split(' ');
+    const getBaseWords = (str: string) => 
+      str.split(' ').filter(Boolean).map(w => w.replace(/^biceps$/, 'bicep').replace(/^triceps$/, 'tricep').replace(/s$/, ''));
+
+    const normalizedWords = getBaseWords(normalized);
 
     const key = Object.keys(EXERCISE_MAPPING).find(k => {
-      if (normalized.includes(k) || k.includes(normalized)) return true;
-
-      const kWords = k.split(' ');
-      if (kWords.length > 1 && kWords.every(word => normalizedWords.includes(word))) return true;
+      const kWords = getBaseWords(k);
+      
       if (normalizedWords.length > 1 && normalizedWords.every(word => kWords.includes(word))) return true;
+      if (kWords.length > 1 && kWords.every(word => normalizedWords.includes(word))) return true;
 
       return false;
     });
