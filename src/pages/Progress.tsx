@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +40,7 @@ const item = {
 
 const Progress = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [logs, setLogs] = useState<LogWithPlan[]>([]);
   const [loading, setLoading] = useState(true);
@@ -168,7 +170,7 @@ const Progress = () => {
           </Button>
           <div className="flex items-center gap-2">
             <BarChart2 className="h-5 w-5 text-primary" />
-            <span className="text-lg font-bold tracking-tight font-['Space_Grotesk']">Progress</span>
+            <span className="text-lg font-bold tracking-tight font-['Space_Grotesk']">{t.progress.title}</span>
           </div>
         </div>
       </header>
@@ -187,11 +189,11 @@ const Progress = () => {
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-primary">
                   <Zap className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Current Streak</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">{t.progress.currentStreak}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold font-['Space_Grotesk']">{streak}</span>
-                  <span className="text-xs text-muted-foreground font-medium">days</span>
+                  <span className="text-xs text-muted-foreground font-medium">{t.progress.days}</span>
                 </div>
               </div>
             </motion.div>
@@ -200,11 +202,11 @@ const Progress = () => {
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <TrendingUp className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Total Workouts</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">{t.progress.totalWorkouts}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold font-['Space_Grotesk']">{logs.length}</span>
-                  <span className="text-xs text-muted-foreground font-medium">sessions</span>
+                  <span className="text-xs text-muted-foreground font-medium">{t.progress.sessions}</span>
                 </div>
               </div>
             </motion.div>
@@ -213,11 +215,11 @@ const Progress = () => {
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Dumbbell className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Total Volume</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">{t.progress.totalVolume}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold font-['Space_Grotesk']">{(totalVolume / 1000).toFixed(1)}</span>
-                  <span className="text-xs text-muted-foreground font-medium">tons</span>
+                  <span className="text-xs text-muted-foreground font-medium">{t.progress.tons}</span>
                 </div>
               </div>
             </motion.div>
@@ -226,11 +228,11 @@ const Progress = () => {
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Calendar className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Days Training</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">{t.progress.daysTraining}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold font-['Space_Grotesk']">{[...new Set(logs.map(l => l.completed_at.split('T')[0]))].length}</span>
-                  <span className="text-xs text-muted-foreground font-medium">days</span>
+                  <span className="text-xs text-muted-foreground font-medium">{t.progress.days}</span>
                 </div>
               </div>
             </motion.div>
@@ -240,8 +242,8 @@ const Progress = () => {
           <motion.div variants={item} className="glass-card rounded-2xl p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">Activity Intensity</h2>
-                <p className="text-xs text-muted-foreground">Your workout consistency over the last 6 months</p>
+                <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">{t.progress.activityIntensity}</h2>
+                <p className="text-xs text-muted-foreground">{t.progress.activityDesc}</p>
               </div>
             <TooltipProvider>
               <UITooltip>
@@ -263,8 +265,8 @@ const Progress = () => {
           <div className="grid grid-cols-1 gap-6">
             <motion.div variants={item} className="glass-card rounded-2xl p-6 space-y-6">
               <div className="space-y-1">
-                <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">Volume Trend</h2>
-                <p className="text-xs text-muted-foreground">Weighted volume growth over the last 8 weeks</p>
+                <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">{t.progress.volumeTrend}</h2>
+                <p className="text-xs text-muted-foreground">{t.progress.volumeDesc}</p>
               </div>
               <div className="h-[240px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -318,8 +320,8 @@ const Progress = () => {
           {/* Recent Sessions List */}
           <motion.div variants={item} className="space-y-4">
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">Session History</h2>
-              <span className="text-[10px] font-medium text-muted-foreground uppercase">Showing last 30</span>
+              <h2 className="text-sm font-bold uppercase tracking-wider font-['Space_Grotesk'] text-muted-foreground">{t.progress.sessionHistory}</h2>
+              <span className="text-[10px] font-medium text-muted-foreground uppercase">{t.progress.showingLast30}</span>
             </div>
             
             {logs.length === 0 ? (
@@ -329,7 +331,7 @@ const Progress = () => {
                     <div className="h-12 w-12 rounded-full bg-muted/20 flex items-center justify-center text-muted-foreground">
                       <Target className="h-6 w-6" />
                     </div>
-                    <p className="text-sm text-muted-foreground font-medium">No workouts logged yet. Time to get mighty!</p>
+                    <p className="text-sm text-muted-foreground font-medium">{t.progress.noWorkouts}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -340,9 +342,11 @@ const Progress = () => {
                   const muscles = log.plan?.muscle_groups;
                   const groups = Array.isArray(muscles) && muscles.length > 0 ? muscles : ["Other"];
                   groups.forEach((group: string) => {
-                    const key = group.charAt(0).toUpperCase() + group.slice(1).toLowerCase();
-                    if (!grouped.has(key)) grouped.set(key, []);
-                    grouped.get(key)!.push(log);
+                    const key = group.toLowerCase();
+                    const translatedGroup = t.muscles[key as keyof typeof t.muscles] || group;
+                    const finalKey = translatedGroup.charAt(0).toUpperCase() + translatedGroup.slice(1);
+                    if (!grouped.has(finalKey)) grouped.set(finalKey, []);
+                    grouped.get(finalKey)!.push(log);
                   });
                 });
 

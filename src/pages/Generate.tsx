@@ -15,7 +15,7 @@ const RECOVERY_MUSCLES = ["core", "glutes", "legs"];
 
 const Generate = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<string[]>([]);
   const [duration, setDuration] = useState(45);
@@ -60,6 +60,7 @@ const Generate = () => {
           experience: profileRes.data?.experience,
           goal: profileRes.data?.goal,
           previousLogs: logsRes.data || [],
+          language: language,
         },
       });
 
@@ -70,7 +71,7 @@ const Generate = () => {
         .from("workout_plans")
         .insert({
           user_id: user.id,
-          title: data.title || `${muscles.join(", ")} Workout`,
+          title: data.title || `${muscles.map(m => t.muscles[m as keyof typeof t.muscles] || m).join(", ")} ${language === 'pt' ? 'Treino' : 'Workout'}`,
           muscle_groups: muscles,
           duration_minutes: dur,
           exercises: data.exercises,

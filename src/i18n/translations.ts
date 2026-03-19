@@ -150,6 +150,27 @@ const translations = {
       updateFailed: "Failed to update profile",
     },
 
+    // Progress
+    progress: {
+      title: "Progress",
+      currentStreak: "Current Streak",
+      totalWorkouts: "Total Workouts",
+      totalVolume: "Total Volume",
+      daysTraining: "Days Training",
+      days: "days",
+      sessions: "sessions",
+      tons: "tons",
+      activityIntensity: "Activity Intensity",
+      activityDesc: "Your workout consistency over the last 6 months",
+      consistency: "{consistency}% Consistency",
+      percentageDaysActive: "Percentage of days active in the last 24 weeks",
+      volumeTrend: "Volume Trend",
+      volumeDesc: "Weighted volume growth over the last 8 weeks",
+      sessionHistory: "Session History",
+      showingLast30: "Showing last 30",
+      noWorkouts: "No workouts logged yet. Time to get mighty!",
+    },
+
     // Notifications
     notifications: {
       inbox: "Co-Pilot Inbox",
@@ -315,6 +336,27 @@ const translations = {
       language: "Idioma",
       profileUpdated: "Perfil atualizado!",
       updateFailed: "Erro ao atualizar perfil",
+    },
+
+    // Progress
+    progress: {
+      title: "Progresso",
+      currentStreak: "Sequência Atual",
+      totalWorkouts: "Total de Treinos",
+      totalVolume: "Volume Total",
+      daysTraining: "Dias de Treino",
+      days: "dias",
+      sessions: "sessões",
+      tons: "toneladas",
+      activityIntensity: "Intensidade da Atividade",
+      activityDesc: "Consistência de treinos nos últimos 6 meses",
+      consistency: "{consistency}% Consistência",
+      percentageDaysActive: "Percentual de dias ativos nas últimas 24 semanas",
+      volumeTrend: "Tendência de Volume",
+      volumeDesc: "Crescimento de volume ponderado nas últimas 8 semanas",
+      sessionHistory: "Histórico de Sessões",
+      showingLast30: "A mostrar as últimas 30",
+      noWorkouts: "Nenhum treino registado. Hora de ficar mighty!",
     },
 
     // Notifications

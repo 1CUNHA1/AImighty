@@ -93,6 +93,16 @@ Deno.serve(async (req) => {
         }
       }
 
+      const isPT = (profile as any).language === "pt";
+      const triggerTitles: Record<string, string> = {
+        Milestone: isPT ? "Conquista 🎉" : "Milestone",
+        Inactivity: isPT ? "Falta de Treino" : "Inactivity",
+        Recovery: isPT ? "Recuperação" : "Recovery",
+        Streak: isPT ? "Sequência 🔥" : "Streak",
+        Dedication: isPT ? "Dedicação" : "Dedication",
+        Welcome: isPT ? "Bem-vindo! 💪" : "Welcome",
+      };
+
       // 3. If a trigger condition was met, call Gemini
       if (triggerReason !== "") {
         let message = "";
@@ -101,7 +111,7 @@ Deno.serve(async (req) => {
            message = `[MOCK] Trigger: ${triggerReason} - Keep up the great work! ✨`;
         } else {
            const prompt = `You are the AImighty app's Co-Pilot, an elite, motivational personal trainer talking directly to an athlete.
-Generate a very short, punchy (max 1 sentence) push notification for this user based on the scenario.
+Generate a very short, punchy (max 1 sentence) push notification for this user based on the scenario. ${isPT ? "The response MUST be written in PORTUGUESE (pt-PT)." : ""}
 
 STRICT RULES:
 1. MUST include 1-2 relevant emojis.
@@ -138,7 +148,7 @@ ${context}`;
              .from("app_notifications")
              .insert({
                user_id: profile.user_id,
-               title: triggerReason,
+               title: triggerTitles[triggerReason] || triggerReason,
                message: message
              });
            createdCount++;

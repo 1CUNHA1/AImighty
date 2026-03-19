@@ -20,7 +20,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { muscleGroups, durationMinutes, experience, goal, previousLogs } = await req.json();
+    const { muscleGroups, durationMinutes, experience, goal, previousLogs, language } = await req.json();
     const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not configured");
 
@@ -72,12 +72,17 @@ serve(async (req) => {
 - For new exercises they haven't done, use appropriate weights based on their existing strength levels.\n`;
     }
 
-    const systemPrompt = `You are an expert fitness coach. Generate a structured workout plan.
+    const isPT = language === "pt";
+    const languageInstruction = isPT 
+      ? `\n- GENERATE ALL RESPONSE TEXT (title, exercise names, notes, coaching_cues, swap alternatives reasons) IN PORTUGUESE (pt-PT). Use accurate terminology (e.g., 'Séries', 'Repetições').`
+      : `\n- Generate all text in English.`;
+
+    const systemPrompt = `You are an expert fitness coach. Generate a structured workout plan.${languageInstruction}
 The user's goal is "${normalizedGoal}" so use this rep scheme: ${scheme.sets} sets of ${scheme.reps} reps per exercise.
 
 ### EXERCISE POOL
 You MUST ONLY pick exercises from this list for 'name', 'id', and 'swap_alternatives'. 
-Every exercise you select MUST exist in this list with its exact Name and ID.
+Every exercise you select MUST exist in this list with its exact ID. (Translate the 'name' and 'coaching_cues' string to Portuguese if requested).
 ${exercisePool.join('\n')}
 
 ### RESPONSE FORMAT
@@ -86,7 +91,7 @@ Return ONLY valid JSON using this exact structure (no markdown, no extra text):
   "title": "Workout title",
   "exercises": [
     {
-      "name": "Exact name from pool",
+      "name": "Exercise name (Translate to Portuguese if requested)",
       "id": "Exact ID from pool",
       "sets": 3,
       "reps": "10-12",
@@ -98,9 +103,9 @@ Return ONLY valid JSON using this exact structure (no markdown, no extra text):
       "progression": "Optional note",
       "next_goal": { "weight_kg": 42.5, "reps": 10 },
       "swap_alternatives": [
-        { "name": "Exact name from pool", "id": "Exact ID from pool", "label": "Easier", "reason": "reason" },
-        { "name": "Exact name from pool", "id": "Exact ID from pool", "label": "Harder", "reason": "reason" },
-        { "name": "Exact name from pool", "id": "Exact ID from pool", "label": "Different Equipment", "reason": "reason" }
+        { "name": "Translate name to Portuguese if requested", "id": "Exact ID from pool", "label": "Easier", "reason": "Translate reason to Portuguese if requested" },
+        { "name": "Translate name to Portuguese if requested", "id": "Exact ID from pool", "label": "Harder", "reason": "Translate reason to Portuguese if requested" },
+        { "name": "Translate name to Portuguese if requested", "id": "Exact ID from pool", "label": "Different Equipment", "reason": "Translate reason to Portuguese if requested" }
       ]
     }
   ]
