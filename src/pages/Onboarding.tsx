@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,20 +13,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const SMART_DEFAULTS = { weight: "75", height: "175", age: "25" };
 
-const EXPERIENCE_OPTIONS = [
-  { value: "beginner", label: "Beginner", desc: "Less than 6 months" },
-  { value: "intermediate", label: "Intermediate", desc: "6 months – 2 years" },
-  { value: "advanced", label: "Advanced", desc: "2+ years" },
-];
-
-const GOAL_OPTIONS = [
-  { value: "lose_weight", label: "Lose Weight", icon: "🔥" },
-  { value: "build_muscle", label: "Build Muscle", icon: "💪" },
-  { value: "maintain", label: "Maintain", icon: "⚖️" },
-  { value: "improve_endurance", label: "Endurance", icon: "🏃" },
-  { value: "increase_strength", label: "Strength", icon: "🏋️" },
-];
-
 const stepVariants = {
   enter: { opacity: 0, x: 40 },
   center: { opacity: 1, x: 0 },
@@ -34,6 +21,7 @@ const stepVariants = {
 
 const Onboarding = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -44,6 +32,20 @@ const Onboarding = () => {
     experience: "",
     goal: "",
   });
+
+  const EXPERIENCE_OPTIONS = [
+    { value: "beginner", label: t.experience.beginner, desc: t.experience.beginnerDesc },
+    { value: "intermediate", label: t.experience.intermediate, desc: t.experience.intermediateDesc },
+    { value: "advanced", label: t.experience.advanced, desc: t.experience.advancedDesc },
+  ];
+
+  const GOAL_OPTIONS = [
+    { value: "lose_weight", label: t.goals.lose_weight, icon: "🔥" },
+    { value: "build_muscle", label: t.goals.build_muscle, icon: "💪" },
+    { value: "maintain", label: t.goals.maintain, icon: "⚖️" },
+    { value: "improve_endurance", label: t.goals.improve_endurance, icon: "🏃" },
+    { value: "increase_strength", label: t.goals.increase_strength, icon: "🏋️" },
+  ];
 
   const handleSave = async () => {
     if (!user) return;
@@ -61,9 +63,9 @@ const Onboarding = () => {
       .eq("user_id", user.id);
 
     if (error) {
-      toast.error("Failed to save profile");
+      toast.error(t.onboarding.profileFailed);
     } else {
-      toast.success("Profile saved! Let's build your workouts.");
+      toast.success(t.onboarding.profileSaved);
       navigate("/dashboard");
     }
     setSaving(false);
@@ -103,7 +105,7 @@ const Onboarding = () => {
           className="text-muted-foreground hover:text-foreground"
         >
           <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
-          Sign Out
+          {t.common.signOut}
         </Button>
       </div>
 
@@ -136,10 +138,10 @@ const Onboarding = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary">
                   <Ruler className="h-5 w-5" />
-                  <span className="text-sm font-medium uppercase tracking-wider">Step 1 of 3</span>
+                  <span className="text-sm font-medium uppercase tracking-wider">{t.onboarding.stepOf.replace("{step}", "1")}</span>
                 </div>
-                <h2 className="text-3xl font-bold font-['Space_Grotesk']">Your Body Stats</h2>
-                <p className="text-muted-foreground">Help us personalize your workouts</p>
+                <h2 className="text-3xl font-bold font-['Space_Grotesk']">{t.onboarding.bodyStats}</h2>
+                <p className="text-muted-foreground">{t.onboarding.bodyStatsDesc}</p>
               </div>
 
               {/* Smart Defaults Button */}
@@ -149,20 +151,20 @@ const Onboarding = () => {
                 className="flex w-full items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
               >
                 <Zap className="h-4 w-4" />
-                Use Smart Defaults (adjust later in profile)
+                {t.onboarding.smartDefaults}
               </motion.button>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Weight (kg)</Label>
+                  <Label>{t.onboarding.weight}</Label>
                   <Input type="number" placeholder="75" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="h-12 bg-secondary border-border" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Height (cm)</Label>
+                  <Label>{t.onboarding.height}</Label>
                   <Input type="number" placeholder="175" value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} className="h-12 bg-secondary border-border" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Age</Label>
+                  <Label>{t.onboarding.age}</Label>
                   <Input type="number" placeholder="25" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} className="h-12 bg-secondary border-border" />
                 </div>
               </div>
@@ -182,10 +184,10 @@ const Onboarding = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary">
                   <User className="h-5 w-5" />
-                  <span className="text-sm font-medium uppercase tracking-wider">Step 2 of 3</span>
+                  <span className="text-sm font-medium uppercase tracking-wider">{t.onboarding.stepOf.replace("{step}", "2")}</span>
                 </div>
-                <h2 className="text-3xl font-bold font-['Space_Grotesk']">Experience Level</h2>
-                <p className="text-muted-foreground">We'll adjust intensity accordingly</p>
+                <h2 className="text-3xl font-bold font-['Space_Grotesk']">{t.onboarding.experienceLevel}</h2>
+                <p className="text-muted-foreground">{t.onboarding.experienceDesc}</p>
               </div>
               <div className="space-y-3">
                 {EXPERIENCE_OPTIONS.map((opt) => (
@@ -226,10 +228,10 @@ const Onboarding = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary">
                   <Target className="h-5 w-5" />
-                  <span className="text-sm font-medium uppercase tracking-wider">Step 3 of 3</span>
+                  <span className="text-sm font-medium uppercase tracking-wider">{t.onboarding.stepOf.replace("{step}", "3")}</span>
                 </div>
-                <h2 className="text-3xl font-bold font-['Space_Grotesk']">Your Goal</h2>
-                <p className="text-muted-foreground">What are you training for?</p>
+                <h2 className="text-3xl font-bold font-['Space_Grotesk']">{t.onboarding.yourGoal}</h2>
+                <p className="text-muted-foreground">{t.onboarding.goalDesc}</p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {GOAL_OPTIONS.map((opt) => (
@@ -256,7 +258,7 @@ const Onboarding = () => {
         <div className="flex gap-3">
           {step > 0 && (
             <Button variant="outline" onClick={() => setStep(step - 1)} className="flex-1 h-12">
-              Back
+              {t.common.back}
             </Button>
           )}
           <Button
@@ -264,7 +266,7 @@ const Onboarding = () => {
             disabled={!canProceed() || saving}
             className="flex-1 h-12 gap-2 glow-primary"
           >
-            {step === 2 ? (saving ? "Saving..." : "Get Started") : "Continue"}
+            {step === 2 ? (saving ? t.common.saving : t.onboarding.getStarted) : t.common.continue}
             <ArrowRight className="h-4 w-4" />
           </Button>
         </div>

@@ -392,3 +392,80 @@ The project is fully prepared for one-click deployment to **Vercel**:
 ---
 
 *Ready to become Al-mighty? Start your training today.* 💪
+
+---
+
+<details>
+<summary>🇵🇹 <strong>Versão em Português</strong></summary>
+
+# AImighty 🏋️‍♂️ — Plataforma de Fitness com IA
+
+> Um assistente de fitness com inteligência artificial que gera planos de treino hiper-personalizados, oferece demonstrações de exercícios em tempo real e envia notificações motivacionais inteligentes — tudo numa interface premium com glassmorfismo e modo escuro.
+
+**🔗 App Online:** [aimighty.vercel.app](https://aimighty.vercel.app)
+
+## 🌍 Suporte Bilingue
+
+A aplicação suporta **Inglês** e **Português**. O idioma pode ser alterado:
+*   Na página de **Login** — botão 🌐 no canto superior direito
+*   Na página de **Perfil** — seletor de idioma com bandeiras EN 🇬🇧 / PT 🇵🇹
+
+A escolha é guardada no navegador e persiste entre sessões.
+
+## 🚀 Funcionalidades Principais
+
+*   **Geração de Treinos com IA**: Powered by **Google Gemini 2.5 Flash**, a app seleciona exercícios de uma base verificada de **1.318 exercícios** mapeados com IDs do ExerciseDB.
+*   **Co-Piloto Motivacional com IA**: Sistema autónomo via `pg_cron` que analisa o histórico de treinos e envia notificações personalizadas (marcos, sequências, recuperação, dedicação, inatividade).
+*   **Demonstrações de Exercícios**: 1.300+ GIFs animados com cobertura de 100%.
+*   **Construtor Interativo**: Criação de treinos com drag-and-drop e filtragem inteligente por grupo muscular.
+*   **Progresso e Estatísticas**: Heatmaps de atividade, distribuição muscular e acompanhamento de séries/repetições/pesos.
+*   **UI Premium**: Interface glassmorfismo com modo claro/escuro, animações Framer Motion e totalmente responsiva.
+
+## 🛠 Stack Tecnológica
+
+| Camada | Tecnologia |
+|---|---|
+| **Frontend** | React 18, TypeScript, Vite 5 |
+| **Estilos** | Tailwind CSS, Framer Motion, Lucide Icons, Shadcn/UI |
+| **Backend** | Supabase (Auth, PostgreSQL, Edge Functions, Realtime, `pg_cron`) |
+| **IA** | Google Gemini 2.5 Flash API |
+| **Hosting** | Vercel (frontend), Supabase Cloud (backend) |
+
+## 📦 Instalação
+
+1.  **Clonar o repositório:**
+    ```sh
+    git clone git@github.com:1CUNHA1/AImighty.git
+    cd AImighty
+    ```
+
+2.  **Instalar dependências:**
+    ```sh
+    bun install
+    ```
+
+3.  **Configurar variáveis de ambiente:**
+    Criar um ficheiro `.env` na raiz:
+    ```env
+    VITE_SUPABASE_URL=url_publico_do_supabase
+    VITE_SUPABASE_PUBLISHABLE_KEY=chave_anon_publica
+    VITE_GEMINI_API_KEY=chave_api_gemini
+    SUPABASE_SERVICE_ROLE_KEY=chave_secreta_admin
+    ```
+
+4.  **Iniciar o servidor de desenvolvimento:**
+    ```sh
+    bun dev
+    ```
+
+## 🌐 Deploy (Vercel)
+
+*   **Routing SPA**: Ficheiro `vercel.json` incluído para redirecionar todas as rotas para `index.html`.
+*   **Variáveis**: Adicionar `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no painel do Vercel.
+*   **CI/CD Automático**: Cada push para `main` faz rebuild automático.
+
+---
+
+*Pronto para ficar Al-mighty? Começa o teu treino hoje.* 💪
+
+</details>

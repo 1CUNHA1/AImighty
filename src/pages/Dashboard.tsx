@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Plus, LogOut, TrendingUp, Calendar, Zap, UserCog, ChevronRight, Target, Trash2, AlertTriangle } from "lucide-react";
@@ -40,6 +41,7 @@ const item = {
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [plans, setPlans] = useState<WorkoutPlan[]>([]);
@@ -82,10 +84,10 @@ const Dashboard = () => {
       if (error) throw error;
 
       setPlans(prev => prev.filter(p => p.id !== planToDelete));
-      toast.success("Workout plan deleted");
+      toast.success(t.dashboard.planDeleted);
     } catch (e: any) {
       console.error("Delete error:", e);
-      toast.error(e.message || "Failed to delete workout plan");
+      toast.error(e.message || t.dashboard.deleteFailed);
     } finally {
       setDeleting(false);
       setPlanToDelete(null);
@@ -110,8 +112,9 @@ const Dashboard = () => {
   });
 
   const goalLabel = profile?.goal ?
-    profile.goal.charAt(0).toUpperCase() + profile.goal.slice(1).replace(/_/g, " ") :
-    "General Fitness";
+    (t.goals as Record<string, string>)[profile.goal] || 
+    (profile.goal.charAt(0).toUpperCase() + profile.goal.slice(1).replace(/_/g, " ")) :
+    t.dashboard.generalFitness;
 
   // Find most recent plan for "Ready to Lift"
   const readyPlan = plans[0];
@@ -132,7 +135,7 @@ const Dashboard = () => {
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="sm" onClick={() => navigate("/progress")} className="gap-1.5 text-muted-foreground hover:text-foreground">
               <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Progress</span>
+              <span className="hidden sm:inline">{t.dashboard.progress}</span>
             </Button>
             <Button variant="ghost" size="icon" onClick={() => navigate("/profile")} className="text-muted-foreground hover:text-foreground">
               <UserCog className="h-4 w-4" />
@@ -152,19 +155,19 @@ const Dashboard = () => {
             <AlertDialogHeader>
               <AlertDialogTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-red-500" />
-                Delete Workout Plan?
+                {t.dashboard.deletePlanTitle}
               </AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your workout plan and all associated data.
+                {t.dashboard.deletePlanDesc}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="bg-secondary">Cancel</AlertDialogCancel>
+              <AlertDialogCancel className="bg-secondary">{t.common.cancel}</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeletePlan}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                {deleting ? "Deleting..." : "Delete Plan"}
+                {deleting ? t.dashboard.deleting : t.dashboard.deletePlan}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -174,9 +177,9 @@ const Dashboard = () => {
           {/* Welcome */}
           <motion.div variants={item} className="space-y-1">
             <h1 className="text-2xl font-bold tracking-tight font-['Space_Grotesk']">
-              Welcome, {profile?.full_name?.split(" ")[0] || "Athlete"}
+              {t.dashboard.welcome.replace("{name}", profile?.full_name?.split(" ")[0] || t.common.athlete)}
             </h1>
-            <p className="text-muted-foreground">Ready to get mighty?</p>
+            <p className="text-muted-foreground">{t.dashboard.subtitle}</p>
           </motion.div>
 
           {/* Hero Cards Row */}
@@ -194,13 +197,13 @@ const Dashboard = () => {
               <div className="relative z-10 space-y-3">
                 <div className="flex items-center gap-2">
                   <Target className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-medium uppercase tracking-wider text-primary">Current Goal</span>
+                  <span className="text-xs font-medium uppercase tracking-wider text-primary">{t.dashboard.currentGoal}</span>
                 </div>
                 <p className="text-xl font-bold font-['Space_Grotesk']">{goalLabel}</p>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>{profile?.experience || "Beginner"} level</span>
+                  <span>{profile?.experience || t.experience.beginner} {t.common.level}</span>
                   <span>·</span>
-                  <span>{thisWeekLogs.length} sessions this week</span>
+                  <span>{t.dashboard.sessionsThisWeek.replace("{count}", String(thisWeekLogs.length))}</span>
                 </div>
               </div>
             </motion.div>
@@ -218,7 +221,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Zap className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-medium uppercase tracking-wider text-primary">​ GET MIGHTY   </span>
+                    <span className="text-xs font-medium uppercase tracking-wider text-primary">{t.dashboard.getMighty}</span>
                   </div>
                   <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
@@ -226,13 +229,13 @@ const Dashboard = () => {
                   <>
                     <p className="text-lg font-bold font-['Space_Grotesk']">{readyPlan.title}</p>
                     <p className="text-xs text-muted-foreground">
-                      {readyPlan.muscle_groups.join(", ")} · {readyPlan.duration_minutes} min
+                      {readyPlan.muscle_groups.join(", ")} · {readyPlan.duration_minutes} {t.common.min}
                     </p>
                   </> :
 
                   <>
-                    <p className="text-lg font-bold font-['Space_Grotesk']">Generate a Workout</p>
-                    <p className="text-xs text-muted-foreground">Create your first AI-powered session</p>
+                    <p className="text-lg font-bold font-['Space_Grotesk']">{t.dashboard.generateWorkout}</p>
+                    <p className="text-xs text-muted-foreground">{t.dashboard.createFirst}</p>
                   </>
                 }
               </div>
@@ -242,9 +245,9 @@ const Dashboard = () => {
           {/* Quick Stats */}
           <motion.div variants={item} className="grid grid-cols-3 gap-3">
             {[
-              { icon: Zap, value: thisWeekLogs.length, label: "This Week" },
-              { icon: Calendar, value: logs.length, label: "Total Logged" },
-              { icon: Dumbbell, value: plans.length, label: "Plans" }].
+              { icon: Zap, value: thisWeekLogs.length, label: t.dashboard.thisWeek },
+              { icon: Calendar, value: logs.length, label: t.dashboard.totalLogged },
+              { icon: Dumbbell, value: plans.length, label: t.dashboard.plans }].
               map((stat, i) =>
                 <motion.div
                   key={stat.label}
@@ -261,7 +264,7 @@ const Dashboard = () => {
           {/* Muscle Heatmap */}
           <motion.div variants={item} className="glass-card rounded-2xl p-5">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              7-Day Intensity Map
+              {t.dashboard.intensityMap}
             </h2>
             <MuscleHeatmap logs={logs} />
           </motion.div>
@@ -273,14 +276,14 @@ const Dashboard = () => {
               className="w-full h-14 text-base font-semibold gap-2 glow-primary rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
 
               <Plus className="h-5 w-5" />
-              New Workout Plan
+              {t.dashboard.newPlan}
             </Button>
           </motion.div>
 
           {/* Recent Plans */}
           <motion.div variants={item} className="space-y-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Recent Plans
+              {t.dashboard.recentPlans}
             </h2>
             <AnimatePresence>
               {plans.length === 0 ?
@@ -289,7 +292,7 @@ const Dashboard = () => {
                   animate={{ opacity: 1 }}
                   className="glass-card rounded-xl p-8 text-center text-muted-foreground">
 
-                  No workout plans yet. Generate your first one!
+                  {t.dashboard.noPlans}
                 </motion.div> :
 
                 plans.map((plan, i) =>
@@ -306,7 +309,7 @@ const Dashboard = () => {
                       <div className="flex-1" onClick={() => navigate(`/workout/${plan.id}`)}>
                         <p className="font-semibold font-['Space_Grotesk']">{plan.title}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">
-                          {plan.muscle_groups.join(", ")} · {plan.duration_minutes} min
+                          {plan.muscle_groups.join(", ")} · {plan.duration_minutes} {t.common.min}
                         </p>
                       </div>
                       <div className="flex items-center gap-1">

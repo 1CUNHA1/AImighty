@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dumbbell } from "lucide-react";
+import { Dumbbell, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const Login = () => {
   const { user, loading } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,7 +37,7 @@ const Login = () => {
           }
         });
         if (error) throw error;
-        toast.success("Check your email to confirm your account!");
+        toast.success(t.login.checkEmail);
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -44,7 +46,7 @@ const Login = () => {
         if (error) throw error;
       }
     } catch (err: any) {
-      toast.error(err.message || "Authentication failed.");
+      toast.error(err.message || t.login.authFailed);
     } finally {
       setSubmitting(false);
     }
@@ -54,6 +56,19 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setLanguage(language === "en" ? "pt" : "en")}
+          className="gap-1.5 text-muted-foreground hover:text-foreground"
+        >
+          <Globe className="h-4 w-4" />
+          {language === "en" ? "PT 🇵🇹" : "EN 🇬🇧"}
+        </Button>
+      </div>
+
       <div className="w-full max-w-sm space-y-8 text-center">
         <div className="space-y-4">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 glow-primary">
@@ -63,14 +78,14 @@ const Login = () => {
             AI<span className="text-gradient">mighty</span>
           </h1>
           <p className="text-muted-foreground">
-            AI-powered workout plans built for your goals
+            {t.login.subtitle}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-left">
           {isRegister && (
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName">{t.login.fullName}</Label>
               <Input
                 id="fullName"
                 type="text"
@@ -83,7 +98,7 @@ const Login = () => {
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t.login.email}</Label>
             <Input
               id="email"
               type="email"
@@ -95,7 +110,7 @@ const Login = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t.login.password}</Label>
             <Input
               id="password"
               type="password"
@@ -113,18 +128,18 @@ const Login = () => {
             size="lg"
             className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 glow-primary text-base font-semibold h-14"
           >
-            {submitting ? "Please wait..." : isRegister ? "Create Account" : "Sign In"}
+            {submitting ? t.common.loading : isRegister ? t.login.createAccount : t.common.signIn}
           </Button>
         </form>
 
         <p className="text-sm text-muted-foreground">
-          {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
+          {isRegister ? t.login.alreadyHaveAccount : t.login.dontHaveAccount}{" "}
           <button
             type="button"
             onClick={() => setIsRegister(!isRegister)}
             className="text-primary underline-offset-4 hover:underline font-medium"
           >
-            {isRegister ? "Sign In" : "Register"}
+            {isRegister ? t.common.signIn : t.common.register}
           </button>
         </p>
       </div>

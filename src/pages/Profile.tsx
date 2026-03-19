@@ -1,30 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Save, Dumbbell } from "lucide-react";
+import { ArrowLeft, Save, Dumbbell, Globe } from "lucide-react";
 import { toast } from "sonner";
-
-const EXPERIENCE_OPTIONS = [
-  { value: "beginner", label: "Beginner", desc: "Less than 6 months" },
-  { value: "intermediate", label: "Intermediate", desc: "6 months – 2 years" },
-  { value: "advanced", label: "Advanced", desc: "2+ years" },
-];
-
-const GOAL_OPTIONS = [
-  { value: "lose_weight", label: "Lose Weight", icon: "🔥" },
-  { value: "build_muscle", label: "Build Muscle", icon: "💪" },
-  { value: "maintain", label: "Maintain", icon: "⚖️" },
-  { value: "improve_endurance", label: "Endurance", icon: "🏃" },
-  { value: "increase_strength", label: "Strength", icon: "🏋️" },
-];
 
 const Profile = () => {
   const { user } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,6 +24,20 @@ const Profile = () => {
     experience: "",
     goal: "",
   });
+
+  const EXPERIENCE_OPTIONS = [
+    { value: "beginner", label: t.experience.beginner, desc: t.experience.beginnerDesc },
+    { value: "intermediate", label: t.experience.intermediate, desc: t.experience.intermediateDesc },
+    { value: "advanced", label: t.experience.advanced, desc: t.experience.advancedDesc },
+  ];
+
+  const GOAL_OPTIONS = [
+    { value: "lose_weight", label: t.goals.lose_weight, icon: "🔥" },
+    { value: "build_muscle", label: t.goals.build_muscle, icon: "💪" },
+    { value: "maintain", label: t.goals.maintain, icon: "⚖️" },
+    { value: "improve_endurance", label: t.goals.improve_endurance, icon: "🏃" },
+    { value: "increase_strength", label: t.goals.increase_strength, icon: "🏋️" },
+  ];
 
   useEffect(() => {
     if (!user) return;
@@ -70,9 +72,9 @@ const Profile = () => {
       .eq("user_id", user.id);
 
     if (error) {
-      toast.error("Failed to update profile");
+      toast.error(t.profile.updateFailed);
     } else {
-      toast.success("Profile updated!");
+      toast.success(t.profile.profileUpdated);
     }
     setSaving(false);
   };
@@ -92,31 +94,60 @@ const Profile = () => {
           <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-lg font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Edit Profile</h1>
+          <h1 className="text-lg font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.profile.title}</h1>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl space-y-6 px-4 py-6">
+        {/* Language Selector */}
+        <div className="space-y-3">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">{t.profile.language}</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { value: "en" as const, label: "English", flag: "🇬🇧" },
+              { value: "pt" as const, label: "Português", flag: "🇵🇹" },
+            ].map((opt) => (
+              <Card
+                key={opt.value}
+                className={`cursor-pointer transition-all border-2 ${
+                  language === opt.value
+                    ? "border-primary glow-primary bg-primary/5"
+                    : "border-border hover:border-muted-foreground/30"
+                }`}
+                onClick={() => setLanguage(opt.value)}
+              >
+                <CardContent className="flex items-center gap-3 p-3">
+                  <span className="text-xl">{opt.flag}</span>
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-semibold text-sm">{opt.label}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         {/* Name */}
         <div className="space-y-2">
-          <Label>Full Name</Label>
-          <Input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} className="h-12 bg-secondary border-border" placeholder="Your name" />
+          <Label>{t.profile.fullName}</Label>
+          <Input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} className="h-12 bg-secondary border-border" placeholder={t.profile.fullName} />
         </div>
 
         {/* Body Stats */}
         <div className="space-y-3">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Body Stats</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">{t.profile.bodyStats}</h2>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-2">
-              <Label>Weight (kg)</Label>
+              <Label>{t.onboarding.weight}</Label>
               <Input type="number" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="h-12 bg-secondary border-border" placeholder="75" />
             </div>
             <div className="space-y-2">
-              <Label>Height (cm)</Label>
+              <Label>{t.onboarding.height}</Label>
               <Input type="number" value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} className="h-12 bg-secondary border-border" placeholder="180" />
             </div>
             <div className="space-y-2">
-              <Label>Age</Label>
+              <Label>{t.onboarding.age}</Label>
               <Input type="number" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} className="h-12 bg-secondary border-border" placeholder="25" />
             </div>
           </div>
@@ -124,7 +155,7 @@ const Profile = () => {
 
         {/* Experience */}
         <div className="space-y-3">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Experience Level</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">{t.profile.experienceLevel}</h2>
           <div className="space-y-2">
             {EXPERIENCE_OPTIONS.map((opt) => (
               <Card
@@ -152,7 +183,7 @@ const Profile = () => {
 
         {/* Goal */}
         <div className="space-y-3">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Goal</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">{t.profile.goal}</h2>
           <div className="grid grid-cols-2 gap-3">
             {GOAL_OPTIONS.map((opt) => (
               <Card
@@ -175,7 +206,7 @@ const Profile = () => {
 
         <Button onClick={handleSave} disabled={saving} className="w-full h-14 text-base font-semibold gap-2 glow-primary rounded-xl">
           <Save className="h-5 w-5" />
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? t.common.saving : t.common.save}
         </Button>
       </main>
     </div>

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react";
@@ -10,6 +11,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const Chatbot = () => {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -55,7 +57,7 @@ const Chatbot = () => {
 
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
     } catch (e: any) {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, something went wrong. Please try again." }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: language === "pt" ? "Desculpa, algo correu mal. Tenta novamente." : "Sorry, something went wrong. Please try again." }]);
     } finally {
       setLoading(false);
     }
@@ -78,7 +80,7 @@ const Chatbot = () => {
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-primary" />
-          <span className="font-semibold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>FormaFit AI</span>
+          <span className="font-semibold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.chatbot.title}</span>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="h-8 w-8">
           <X className="h-4 w-4" />
@@ -91,7 +93,7 @@ const Chatbot = () => {
           <div className="flex h-full items-center justify-center text-center text-sm text-muted-foreground">
             <div>
               <Bot className="mx-auto mb-2 h-8 w-8 text-primary" />
-              <p>Ask me anything about fitness, form, nutrition, or your workouts!</p>
+              <p>{t.chatbot.placeholder}</p>
             </div>
           </div>
         )}
@@ -130,7 +132,7 @@ const Chatbot = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about fitness..."
+            placeholder={t.chatbot.placeholder}
             className="flex-1 bg-secondary border-border"
             disabled={loading}
           />

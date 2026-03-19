@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Bell, Check, Zap, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Popover,
   PopoverContent,
@@ -20,6 +21,7 @@ type Notification = {
 
 export function NotificationCenter() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ export function NotificationCenter() {
         },
         (payload) => {
           setNotifications((prev) => [payload.new as Notification, ...prev]);
-          toast.success("New Motivation Co-Pilot message received! 🚀");
+          toast.success(t.notifications.newMessage);
         }
       )
       .subscribe();
@@ -82,14 +84,13 @@ export function NotificationCenter() {
   const triggerMotivation = async () => {
     setLoading(true);
     try {
-      // In dev mode, we check if there's a VITE_ environment variable to use locally
       const { data, error } = await supabase.functions.invoke("generate-motivation", {
         body: { } 
       });
       if (error) throw error;
-      toast.success("Motivation generated!");
+      toast.success(t.notifications.generated);
     } catch (e: any) {
-      toast.error(e.message || "Failed to generate motivation");
+      toast.error(e.message || t.notifications.generateFailed);
     } finally {
       setLoading(false);
     }
@@ -111,11 +112,11 @@ export function NotificationCenter() {
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
           <div className="flex items-center gap-2">
             <Zap className="h-4 w-4 text-primary" />
-            <h4 className="font-semibold font-['Space_Grotesk'] text-sm tracking-wide">Co-Pilot Inbox</h4>
+            <h4 className="font-semibold font-['Space_Grotesk'] text-sm tracking-wide">{t.notifications.inbox}</h4>
           </div>
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" onClick={markAllAsRead} className="h-auto p-0 text-xs text-muted-foreground hover:text-primary hover:bg-transparent">
-              Mark all read
+              {t.notifications.markAllRead}
             </Button>
           )}
         </div>
@@ -124,7 +125,7 @@ export function NotificationCenter() {
           {notifications.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground text-sm flex flex-col items-center gap-2">
               <Bell className="h-8 w-8 opacity-20" />
-              <p>No messages yet.</p>
+              <p>{t.notifications.noMessages}</p>
             </div>
           ) : (
             <div className="flex flex-col">

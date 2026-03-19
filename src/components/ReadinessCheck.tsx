@@ -1,16 +1,9 @@
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Battery, BatteryLow, AlertTriangle } from "lucide-react";
-
-const READINESS_LABELS = [
-  { label: "Exhausted", emoji: "😩", color: "text-red-400" },
-  { label: "Tired", emoji: "😴", color: "text-orange-400" },
-  { label: "Okay", emoji: "😐", color: "text-yellow-400" },
-  { label: "Good", emoji: "😊", color: "text-green-400" },
-  { label: "Energized!", emoji: "🔥", color: "text-primary" },
-];
 
 interface ReadinessCheckProps {
   onProceed: (readiness: number) => void;
@@ -18,8 +11,17 @@ interface ReadinessCheckProps {
 }
 
 const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
+  const { t } = useLanguage();
   const [readiness, setReadiness] = useState(3);
   const [showWarning, setShowWarning] = useState(false);
+
+  const READINESS_LABELS = [
+    { label: t.readiness.exhausted, emoji: "😩", color: "text-red-400" },
+    { label: t.readiness.tired, emoji: "😴", color: "text-orange-400" },
+    { label: t.readiness.okay, emoji: "😐", color: "text-yellow-400" },
+    { label: t.readiness.good, emoji: "😊", color: "text-green-400" },
+    { label: t.readiness.energized, emoji: "🔥", color: "text-primary" },
+  ];
 
   const handleContinue = () => {
     if (readiness <= 2) {
@@ -40,9 +42,9 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-primary">
           <Battery className="h-5 w-5" />
-          <span className="text-sm font-medium uppercase tracking-wider">Readiness Check</span>
+          <span className="text-sm font-medium uppercase tracking-wider">{t.readiness.title}</span>
         </div>
-        <h2 className="text-xl font-bold font-['Space_Grotesk']">How are you feeling today?</h2>
+        <h2 className="text-xl font-bold font-['Space_Grotesk']">{t.readiness.question}</h2>
       </div>
 
       <div className="space-y-4">
@@ -78,8 +80,8 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
             className="w-full"
           />
           <div className="flex justify-between mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-            <span>Low</span>
-            <span>High</span>
+            <span>{t.readiness.low}</span>
+            <span>{t.readiness.high}</span>
           </div>
         </div>
       </div>
@@ -96,9 +98,9 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
               <div className="flex items-start gap-2">
                 <AlertTriangle className="h-5 w-5 text-orange-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-semibold text-orange-400">You seem tired</p>
+                  <p className="text-sm font-semibold text-orange-400">{t.readiness.youSeemTired}</p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Want to switch to a 15-min Recovery session instead?
+                    {t.readiness.recoveryPrompt}
                   </p>
                 </div>
               </div>
@@ -109,7 +111,7 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
                   onClick={() => onProceed(readiness)}
                   className="flex-1 text-xs"
                 >
-                  Continue anyway
+                  {t.readiness.continueAnyway}
                 </Button>
                 <Button
                   size="sm"
@@ -117,7 +119,7 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
                   className="flex-1 text-xs bg-orange-400 text-background hover:bg-orange-500"
                 >
                   <BatteryLow className="h-3 w-3 mr-1" />
-                  Recovery Session
+                  {t.readiness.recoverySession}
                 </Button>
               </div>
             </div>
@@ -127,7 +129,7 @@ const ReadinessCheck = ({ onProceed, onRecovery }: ReadinessCheckProps) => {
 
       {!showWarning && (
         <Button onClick={handleContinue} className="w-full h-12 glow-primary font-semibold">
-          Let's Go
+          {t.readiness.letsGo}
         </Button>
       )}
     </motion.div>
