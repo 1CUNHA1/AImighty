@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dumbbell, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -13,11 +14,17 @@ const Login = () => {
   const { user, loading } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
-  const [isRegister, setIsRegister] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isRegister = searchParams.get("mode") === "register";
+
+  const setIsRegister = (val: boolean) => {
+    setSearchParams(val ? { mode: "register" } : {});
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
     if (!loading && user) navigate("/dashboard");
@@ -71,11 +78,11 @@ const Login = () => {
 
       <div className="w-full max-w-sm space-y-8 text-center">
         <div className="space-y-4">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 glow-primary">
-            <Dumbbell className="h-10 w-10 text-primary" />
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/5 overflow-hidden">
+            <img src="/logo.png" className="h-full w-full object-cover" alt="AImighty Logo" />
           </div>
           <h1 className="text-4xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            AI<span className="text-gradient">mighty</span>
+            Almighty
           </h1>
           <p className="text-muted-foreground">
             {t.login.subtitle}
@@ -122,9 +129,29 @@ const Login = () => {
               className="h-12 rounded-xl border-border bg-card"
             />
           </div>
+          {isRegister && (
+            <div className="flex items-start gap-2 pt-1 pb-2">
+              <Checkbox
+                id="terms"
+                checked={agreed}
+                onCheckedChange={(checked) => setAgreed(checked === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="terms" className="text-xs text-muted-foreground font-normal leading-snug cursor-pointer">
+                {t.login.agreeTo}{" "}
+                <Link to="/terms" className="text-primary hover:underline underline-offset-4">
+                  {t.login.terms}
+                </Link>{" "}
+                {t.login.and}{" "}
+                <Link to="/privacy" className="text-primary hover:underline underline-offset-4">
+                  {t.login.privacy}
+                </Link>.
+              </Label>
+            </div>
+          )}
           <Button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || (isRegister && !agreed)}
             size="lg"
             className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 glow-primary text-base font-semibold h-14"
           >

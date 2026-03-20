@@ -125,11 +125,11 @@ const Dashboard = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-              <Dumbbell className="h-4.5 w-4.5 text-primary" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden">
+              <img src="/logo.png" className="h-full w-full object-cover" alt="ALMIGHTY Logo" />
             </div>
             <span className="text-lg font-bold tracking-tight font-['Space_Grotesk']">
-              AI<span className="text-gradient">mighty</span>
+              Almighty
             </span>
           </div>
           <div className="flex items-center gap-1">

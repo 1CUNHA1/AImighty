@@ -11,6 +11,8 @@ import Generate from "./pages/Generate";
 import WorkoutDetail from "./pages/WorkoutDetail";
 import Progress from "./pages/Progress";
 import Profile from "./pages/Profile";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Chatbot from "./components/Chatbot";
 
@@ -37,6 +39,8 @@ const App = () => (
             <AuthProvider>
               <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/generate" element={<ProtectedRoute><Generate /></ProtectedRoute>} />

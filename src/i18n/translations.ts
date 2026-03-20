@@ -21,7 +21,7 @@ const translations = {
 
     // Login
     login: {
-      subtitle: "AI-powered workout plans built for your goals",
+      subtitle: "AI-powered workout plans built for your goals. Let's get MIGHTY!",
       fullName: "Full Name",
       email: "Email",
       password: "Password",
@@ -30,6 +30,10 @@ const translations = {
       dontHaveAccount: "Don't have an account?",
       checkEmail: "Check your email to confirm your account!",
       authFailed: "Authentication failed.",
+      agreeTo: "I agree to the",
+      terms: "Terms of Service",
+      and: "and",
+      privacy: "Privacy Policy",
     },
 
     // Onboarding
@@ -209,7 +213,7 @@ const translations = {
 
     // Login
     login: {
-      subtitle: "Planos de treino com IA feitos para os teus objetivos",
+      subtitle: "Planos de treino com IA para os teus objetivos. Vamos ficar MIGHTY!",
       fullName: "Nome Completo",
       email: "Email",
       password: "Palavra-passe",
@@ -218,6 +222,10 @@ const translations = {
       dontHaveAccount: "Não tens conta?",
       checkEmail: "Verifica o teu email para confirmar a conta!",
       authFailed: "Falha na autenticação.",
+      agreeTo: "Eu concordo com os",
+      terms: "Termos de Serviço",
+      and: "e a",
+      privacy: "Política de Privacidade",
     },
 
     // Onboarding
