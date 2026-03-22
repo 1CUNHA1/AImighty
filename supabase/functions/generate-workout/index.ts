@@ -35,7 +35,7 @@ serve(async (req) => {
     requestedMuscles.forEach(muscle => {
       // Direct match or partial match (e.g., 'back' matches 'Back', 'upper legs' matches 'Legs')
       const matches = Object.entries(exercisesByMuscle).filter(([key]) =>
-        key.includes(muscle) || muscle.includes(key)
+        key.toLowerCase().includes(muscle) || muscle.includes(key.toLowerCase())
       );
       matches.forEach(([_, exercises]) => pool.push(...(exercises as any[])));
     });
@@ -112,6 +112,7 @@ Return ONLY valid JSON using this exact structure (no markdown, no extra text):
 }
 
 IMPORTANT RULES:
+- STRICT SELECTION RULE: Every selected exercise MUST have its '[Target: ...]' from the pool EXACTLY match one of the requested muscle groups: ${requestedMuscles.join(", ")}. Do NOT include compound movements that target other muscles primarily (e.g., do not suggest Back rows for Biceps logs unless specifically requested).
 - ALWAYS include exactly 3 swap_alternatives per exercise picked from the same pool.
 - ALWAYS include "primary_muscle" matching the target from the pool.
 - ALWAYS include the 'id' field for every exercise.

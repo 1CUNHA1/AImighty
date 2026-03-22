@@ -16,11 +16,6 @@ import exerciseMappingData from "@/data/exercise_mapping.json";
 const EXERCISE_MAPPING: Record<string, string> = exerciseMappingData;
 
 export function getDemoUrl(name: string, id?: string): string | null {
-  // 1. If we have a direct ID from the AI, use it immediately (100% reliable)
-  if (id) {
-    return `https://raw.githubusercontent.com/omercotkd/exercises-gifs/main/assets/${id}.gif`;
-  }
-
   const normalized = name.toLowerCase()
     .trim()
     .replace(/\s+/g, ' ')
@@ -30,8 +25,13 @@ export function getDemoUrl(name: string, id?: string): string | null {
     .replace(/\boverhead\b/g, '') // Disregard overhead modifier for fallback matching
     .trim();
 
-  // 2. Try exact match in mapping
+  // 1. Try exact match in static mapping for 100% visual integrity against AI ID hallucinations
   let foundId = EXERCISE_MAPPING[normalized];
+
+  // 2. Fallback to AI-provided ID if direct lookup fails (e.g., Portuguese translations)
+  if (!foundId && id) {
+    foundId = id;
+  }
 
   // 3. Try singular match (remove 's' at end)
   if (!foundId && normalized.endsWith('s')) {
