@@ -5483,6 +5483,83 @@
       "equipment": "weighted",
       "target": "glutes",
       "bodyPart": "upper legs"
+    },
+    {
+      "name": "assisted side lying adductor stretch",
+      "id": "1712",
+      "equipment": "assisted",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "butterfly yoga pose",
+      "id": "1494",
+      "equipment": "body weight",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "cable hip adduction",
+      "id": "0168",
+      "equipment": "cable",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "lever seated hip abduction",
+      "id": "0597",
+      "equipment": "leverage machine",
+      "target": "abductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "lever seated hip adduction",
+      "id": "0598",
+      "equipment": "leverage machine",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "resistance band seated hip abduction",
+      "id": "3006",
+      "equipment": "resistance band",
+      "target": "abductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "side bridge hip abduction",
+      "id": "1774",
+      "equipment": "body weight",
+      "target": "abductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "side hip abduction",
+      "id": "0710",
+      "equipment": "body weight",
+      "target": "abductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "side lying hip adduction (male)",
+      "id": "3667",
+      "equipment": "body weight",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "side plank hip adduction",
+      "id": "1775",
+      "equipment": "body weight",
+      "target": "adductors",
+      "bodyPart": "upper legs"
+    },
+    {
+      "name": "straight leg outer hip abductor",
+      "id": "1427",
+      "equipment": "body weight",
+      "target": "abductors",
+      "bodyPart": "upper legs"
     }
   ],
   "Hamstrings": [
@@ -5680,85 +5757,6 @@
       "id": "1604",
       "equipment": "body weight",
       "target": "hamstrings",
-      "bodyPart": "upper legs"
-    }
-  ],
-  "Legs": [
-    {
-      "name": "assisted side lying adductor stretch",
-      "id": "1712",
-      "equipment": "assisted",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "butterfly yoga pose",
-      "id": "1494",
-      "equipment": "body weight",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "cable hip adduction",
-      "id": "0168",
-      "equipment": "cable",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "lever seated hip abduction",
-      "id": "0597",
-      "equipment": "leverage machine",
-      "target": "abductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "lever seated hip adduction",
-      "id": "0598",
-      "equipment": "leverage machine",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "resistance band seated hip abduction",
-      "id": "3006",
-      "equipment": "resistance band",
-      "target": "abductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "side bridge hip abduction",
-      "id": "1774",
-      "equipment": "body weight",
-      "target": "abductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "side hip abduction",
-      "id": "0710",
-      "equipment": "body weight",
-      "target": "abductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "side lying hip adduction (male)",
-      "id": "3667",
-      "equipment": "body weight",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "side plank hip adduction",
-      "id": "1775",
-      "equipment": "body weight",
-      "target": "adductors",
-      "bodyPart": "upper legs"
-    },
-    {
-      "name": "straight leg outer hip abductor",
-      "id": "1427",
-      "equipment": "body weight",
-      "target": "abductors",
       "bodyPart": "upper legs"
     }
   ],
