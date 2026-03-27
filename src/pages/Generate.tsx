@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import ReadinessCheck from "@/components/ReadinessCheck";
 
-const RECOVERY_MUSCLES = ["core", "glutes", "legs"];
+const RECOVERY_MUSCLES = ["core", "glutes", "hamstrings"];
 
 const Generate = () => {
   const { user } = useAuth();
@@ -29,9 +29,11 @@ const Generate = () => {
     { value: "shoulders", label: t.muscles.shoulders, emoji: "🤷" },
     { value: "biceps", label: t.muscles.biceps, emoji: "💪" },
     { value: "triceps", label: t.muscles.triceps, emoji: "🦾" },
-    { value: "legs", label: t.muscles.legs, emoji: "🦵" },
-    { value: "core", label: t.muscles.core, emoji: "🎯" },
+    { value: "quads", label: t.muscles.quads, emoji: "🦵" },
+    { value: "hamstrings", label: t.muscles.hamstrings, emoji: "🦿" },
+    { value: "calves", label: t.muscles.calves, emoji: "🦶" },
     { value: "glutes", label: t.muscles.glutes, emoji: "🍑" },
+    { value: "core", label: t.muscles.core, emoji: "🎯" },
   ];
 
   const toggle = (v: string) => {
