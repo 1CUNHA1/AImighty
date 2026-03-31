@@ -170,6 +170,10 @@ const Login = () => {
           </button>
         </p>
       </div>
+
+      <p className="absolute bottom-4 text-[11px] text-muted-foreground/40">
+        © 2026 Almighty
+      </p>
     </div>
   );
 };
