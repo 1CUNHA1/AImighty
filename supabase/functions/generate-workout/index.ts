@@ -6,14 +6,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const GOAL_REP_SCHEMES: Record<string, { sets: string; reps: string }> = {
-  muscle_gain: { sets: "3-5", reps: "6-12" },
-  build_muscle: { sets: "3-5", reps: "6-12" },
-  fat_loss: { sets: "2-3", reps: "12-20" },
-  lose_fat: { sets: "2-3", reps: "12-20" },
-  strength: { sets: "4-6", reps: "3-6" },
-  endurance: { sets: "2-3", reps: "15-25" },
-  general_fitness: { sets: "3-4", reps: "8-15" },
+const GOAL_REP_SCHEMES: Record<string, { sets: string; reps: string; rest: number }> = {
+  muscle_gain: { sets: "3-5", reps: "6-12", rest: 90 },
+  build_muscle: { sets: "3-5", reps: "6-12", rest: 90 },
+  fat_loss: { sets: "3-4", reps: "8-12", rest: 60 },
+  lose_fat: { sets: "3-4", reps: "8-12", rest: 60 },
+  strength: { sets: "4-6", reps: "3-6", rest: 180 },
+  endurance: { sets: "2-3", reps: "15-25", rest: 45 },
+  general_fitness: { sets: "3-4", reps: "8-15", rest: 60 },
 };
 
 serve(async (req) => {
@@ -95,7 +95,7 @@ Return ONLY valid JSON using this exact structure (no markdown, no extra text):
       "id": "Exact ID from pool",
       "sets": 3,
       "reps": "10-12",
-      "rest_seconds": 60,
+      "rest_seconds": ${scheme.rest},
       "notes": "Form tips",
       "suggested_weight_kg": 40,
       "primary_muscle": "From pool target",
@@ -116,8 +116,11 @@ IMPORTANT RULES:
 - ALWAYS include exactly 3 swap_alternatives per exercise picked from the same pool.
 - ALWAYS include "primary_muscle" matching the target from the pool.
 - ALWAYS include the 'id' field for every exercise.
-- Sets MUST be in range ${scheme.sets} and reps MUST be in range ${scheme.reps}
-- Tailor the workout to the user's experience level.
+- Sets MUST be in range ${scheme.sets}, reps MUST be in range ${scheme.reps}, and rest_seconds MUST be exactly ${scheme.rest}.
+- Tailor the workout to the user's experience level ("${experience || "intermediate"}"):
+  - Beginner: Prioritize fundamental compound movements and keep exercise complexity low. Focus on form.
+  - Intermediate: Add more isolation exercises to compliment compounds.
+  - Advanced: Introduce intensity techniques (RPE scale, drop sets, tempo focus) into the "notes" field.
 - Make it fit within the specified duration${historyContext}`;
 
     const userPrompt = `Create a ${durationMinutes}-minute workout targeting: ${muscleGroups.join(", ")}.
