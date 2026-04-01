@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface RestTimerProps {
@@ -10,26 +10,46 @@ interface RestTimerProps {
 const RestTimer = ({ seconds, onComplete, isOpen }: RestTimerProps) => {
   const [remaining, setRemaining] = useState(seconds);
   const [isFinished, setIsFinished] = useState(false);
+  
+  const onCompleteRef = React.useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
+  // Reset when open/close state changes
   useEffect(() => {
     if (!isOpen) {
       setRemaining(seconds);
       setIsFinished(false);
-      return;
     }
+  }, [isOpen, seconds]);
 
-    if (remaining <= 0) {
-      setIsFinished(true);
-      const timeout = setTimeout(onComplete, 1500);
-      return () => clearTimeout(timeout);
-    }
+  // Countdown timer
+  useEffect(() => {
+    if (!isOpen || isFinished) return;
 
     const interval = setInterval(() => {
-      setRemaining((prev) => prev - 1);
+      setRemaining((prev) => {
+        if (prev <= 1) {
+          setIsFinished(true);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [remaining, isOpen, seconds, onComplete]);
+  }, [isOpen, isFinished]);
+
+  // Completion delay
+  useEffect(() => {
+    if (isFinished && isOpen) {
+      const timeout = setTimeout(() => {
+        onCompleteRef.current();
+      }, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [isFinished, isOpen]);
 
   const progress = isOpen ? (seconds - remaining) / seconds : 0;
   const circumference = 2 * Math.PI * 90;

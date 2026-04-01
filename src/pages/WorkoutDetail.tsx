@@ -93,16 +93,31 @@ const WorkoutDetail = () => {
           setPlan(data);
           const exs = (data.exercises as unknown) as Exercise[];
           setExercises(exs);
-          setLogEntries(
-            exs.map((e) => ({
-              name: e.name,
-              sets: Array.from({ length: e.sets }, () => ({
-                reps: 0,
-                weight: e.suggested_weight_kg || 0,
-                logged: false,
-              })),
-            }))
-          );
+
+          const savedStateStr = localStorage.getItem(`workout_state_${id}`);
+          if (savedStateStr) {
+            try {
+              const savedState = JSON.parse(savedStateStr);
+              setLogEntries(savedState.logEntries || []);
+              if (savedState.workoutStarted) setWorkoutStarted(true);
+              if (savedState.workoutStartTime) {
+                setWorkoutStartTime(new Date(savedState.workoutStartTime));
+              }
+            } catch (err) {
+              console.error("Mighty cache error:", err);
+            }
+          } else {
+            setLogEntries(
+              exs.map((e) => ({
+                name: e.name,
+                sets: Array.from({ length: e.sets }, () => ({
+                  reps: 0,
+                  weight: e.suggested_weight_kg || 0,
+                  logged: false,
+                })),
+              }))
+            );
+          }
         }
       });
   }, [id, user]);
@@ -115,6 +130,16 @@ const WorkoutDetail = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [workoutStarted, workoutStartTime]);
+
+  // Persist workout state
+  useEffect(() => {
+    if (!id || !workoutStarted) return;
+    localStorage.setItem(`workout_state_${id}`, JSON.stringify({
+      logEntries,
+      workoutStarted,
+      workoutStartTime: workoutStartTime?.toISOString(),
+    }));
+  }, [id, logEntries, workoutStarted, workoutStartTime]);
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
@@ -202,6 +227,7 @@ const WorkoutDetail = () => {
     if (error) {
       toast.error("Failed to log workout");
     } else {
+      localStorage.removeItem(`workout_state_${id}`);
       toast.success("Workout logged! 🎉");
       navigate("/dashboard");
     }

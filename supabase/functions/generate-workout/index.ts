@@ -88,7 +88,7 @@ ${exercisePool.join('\n')}
 ### RESPONSE FORMAT
 Return ONLY valid JSON using this exact structure (no markdown, no extra text):
 {
-  "title": "Workout title",
+  "title": "Short title (Max 3-4 words)",
   "exercises": [
     {
       "name": "Exercise name (Translate to Portuguese if requested)",

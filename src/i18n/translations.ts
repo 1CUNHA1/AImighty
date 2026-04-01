@@ -118,7 +118,7 @@ const translations = {
       title: "Generate Workout",
       targetMuscles: "Target Muscles",
       duration: "Duration",
-      generateBtn: "Generate with AI",
+      generateBtn: "Create My Workout ⚡",
       generating: "AI is building your workout...",
       lowEnergy: "⚠️ Low energy detected — consider lighter weights today",
       workoutGenerated: "Workout generated!",
@@ -179,7 +179,7 @@ const translations = {
 
     // Notifications
     notifications: {
-      inbox: "Co-Pilot Inbox",
+      inbox: "Inbox",
       markAllRead: "Mark all read",
       noMessages: "No messages yet.",
       newMessage: "New Motivation Co-Pilot message received! 🚀",
@@ -312,7 +312,7 @@ const translations = {
       title: "Gerar Treino",
       targetMuscles: "Músculos Alvo",
       duration: "Duração",
-      generateBtn: "Gerar com IA",
+      generateBtn: "Criar o Meu Treino ⚡",
       generating: "A IA está a criar o teu treino...",
       lowEnergy: "⚠️ Energia baixa detetada — considera pesos mais leves hoje",
       workoutGenerated: "Treino gerado!",
