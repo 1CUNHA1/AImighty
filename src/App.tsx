@@ -27,12 +27,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="dark" storageKey="aimighty-theme">
       <LanguageProvider>
         <TooltipProvider>
+          <Analytics />
           <Toaster />
           <Sonner />
           <BrowserRouter>

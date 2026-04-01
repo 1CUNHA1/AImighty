@@ -17,6 +17,7 @@ const translations = {
       athlete: "Athlete",
       level: "level",
       min: "min",
+      orContinueWith: "Or continue with",
     },
 
     // Login
@@ -211,6 +212,7 @@ const translations = {
       athlete: "Atleta",
       level: "nível",
       min: "min",
+      orContinueWith: "Ou continuar com",
     },
 
     // Login
