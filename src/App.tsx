@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { Analytics } from "@vercel/analytics/react";
 import Login from "./pages/Login";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
@@ -52,6 +53,7 @@ const App = () => (
               <Chatbot />
             </AuthProvider>
           </BrowserRouter>
+          <Analytics />
         </TooltipProvider>
       </LanguageProvider>
     </ThemeProvider>
