@@ -1,4 +1,4 @@
-# AImighty 🏋️‍♂️ — AI-Powered Fitness Platform
+# AImighty — AI-Powered Fitness Platform
 
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)](https://www.typescriptlang.org/)
@@ -9,7 +9,7 @@
 
 > A cutting-edge, AI-powered fitness assistant that generates hyper-personalized workout plans, provides real-time exercise demonstrations, and sends intelligent motivational notifications — all wrapped in a premium glassmorphism dark-mode interface.
 
-**🔗 Live App:** [almightyapp.pt](https://www.almightyapp.pt)
+** Live App:** [almightyapp.pt](https://www.almightyapp.pt)
 
 ---
 
@@ -99,12 +99,12 @@ A drag-and-drop interface where users can manually build custom routines. The bu
 
 | Trigger | Condition | Example AI Message |
 |---|---|---|
-| 🎉 **Milestone** | 10th, 50th, or 100th workout logged | *"Double digits! You just hit 10 workouts 💪"* |
-| 🔥 **Streak** | 3+ workouts in the last 7 days | *"Three days strong, keep this fire alive! 🔥"* |
-| 🛌 **Recovery** | 5+ consecutive training days | *"Your muscles grow during rest, take today off! 😴"* |
-| ⏰ **Dedication** | Training before 6 AM or after 10 PM | *"Training at 4 AM, that's elite discipline! ⏰"* |
-| ⚠️ **Inactivity** | No workouts logged in 3+ days | *"It's been a few days, let's get back at it! 🏋️"* |
-| 👋 **Welcome** | New user with 0 workouts | *"Welcome! Time to crush your first session! 🚀"* |
+|  **Milestone** | 10th, 50th, or 100th workout logged | *"Double digits! You just hit 10 workouts 💪"* |
+|  **Streak** | 3+ workouts in the last 7 days | *"Three days strong, keep this fire alive! 🔥"* |
+|  **Recovery** | 5+ consecutive training days | *"Your muscles grow during rest, take today off! 😴"* |
+|  **Dedication** | Training before 6 AM or after 10 PM | *"Training at 4 AM, that's elite discipline! ⏰"* |
+|  **Inactivity** | No workouts logged in 3+ days | *"It's been a few days, let's get back at it! 🏋️"* |
+|  **Welcome** | New user with 0 workouts | *"Welcome! Time to crush your first session! 🚀"* |
 
 *   Delivered in real-time via **Supabase Realtime** subscriptions to the Notification Bell
 
@@ -220,15 +220,15 @@ AImighty/
 │   │   └── NotFound.tsx                   # 404 fallback
 │   │
 │   ├── components/
-│   │   ├── NotificationCenter.tsx         # 🔔 Real-time AI notification bell (Realtime sub)
-│   │   ├── Chatbot.tsx                    # 💬 Floating AI chat assistant
-│   │   ├── ExerciseDemo.tsx               # 🎬 Animated GIF player + fuzzy ID matching
-│   │   ├── AddExerciseModal.tsx           # ➕ Smart exercise search (muscle-filtered)
-│   │   ├── CoPilotInsights.tsx            # 🤖 AI analysis panel for workout builder
-│   │   ├── MuscleHeatmap.tsx              # 🔥 SVG body map showing trained muscles
-│   │   ├── ActivityHeatmap.tsx            # 📊 GitHub-style contribution grid
-│   │   ├── ReadinessCheck.tsx             # ✅ Pre-workout readiness survey
-│   │   ├── RestTimer.tsx                  # ⏱️ Configurable rest timer with sound
+│   │   ├── NotificationCenter.tsx         # Real-time AI notification bell (Realtime sub)
+│   │   ├── Chatbot.tsx                    # Floating AI chat assistant
+│   │   ├── ExerciseDemo.tsx               # Animated GIF player + fuzzy ID matching
+│   │   ├── AddExerciseModal.tsx           # Smart exercise search (muscle-filtered)
+│   │   ├── CoPilotInsights.tsx            # AI analysis panel for workout builder
+│   │   ├── MuscleHeatmap.tsx              # SVG body map showing trained muscles
+│   │   ├── ActivityHeatmap.tsx            # GitHub-style contribution grid
+│   │   ├── ReadinessCheck.tsx             # Pre-workout readiness survey
+│   │   ├── RestTimer.tsx                  # Configurable rest timer with sound
 │   │   └── ui/                            # Shadcn/UI primitives (button, dialog, etc.)
 │   │
 │   ├── contexts/
@@ -391,20 +391,20 @@ The project is fully prepared for one-click deployment to **Vercel**:
 
 ---
 
-*Ready to become Al-mighty? Start your training today.* 💪
+*Ready to become Al-mighty? Start your training today.* 
 
 ---
 
 <details>
 <summary>🇵🇹 <strong>Versão em Português</strong></summary>
 
-# AImighty 🏋️‍♂️ — Plataforma de Fitness com IA
+# AImighty  — Plataforma de Fitness com IA
 
 > Um assistente de fitness com inteligência artificial que gera planos de treino hiper-personalizados, oferece demonstrações de exercícios em tempo real e envia notificações motivacionais inteligentes — tudo numa interface premium com glassmorfismo e modo escuro.
 
-**🔗 App Online:** [aimighty.vercel.app](https://aimighty.vercel.app)
+** App Online:** [aimighty.vercel.app](https://aimighty.vercel.app)
 
-## 🌍 Suporte Bilingue
+## Suporte Bilingue
 
 A aplicação suporta **Inglês** e **Português**. O idioma pode ser alterado:
 *   Na página de **Login** — botão 🌐 no canto superior direito
@@ -412,7 +412,7 @@ A aplicação suporta **Inglês** e **Português**. O idioma pode ser alterado:
 
 A escolha é guardada no navegador e persiste entre sessões.
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 *   **Geração de Treinos com IA**: Powered by **Google Gemini 2.5 Flash**, a app seleciona exercícios de uma base verificada de **1.318 exercícios** mapeados com IDs do ExerciseDB.
 *   **Co-Piloto Motivacional com IA**: Sistema autónomo via `pg_cron` que analisa o histórico de treinos e envia notificações personalizadas (marcos, sequências, recuperação, dedicação, inatividade).
@@ -431,7 +431,7 @@ A escolha é guardada no navegador e persiste entre sessões.
 | **IA** | Google Gemini 2.5 Flash API |
 | **Hosting** | Vercel (frontend), Supabase Cloud (backend) |
 
-## 📦 Instalação
+## Instalação
 
 1.  **Clonar o repositório:**
     ```sh
@@ -458,7 +458,7 @@ A escolha é guardada no navegador e persiste entre sessões.
     bun dev
     ```
 
-## 🌐 Deploy (Vercel)
+## Deploy (Vercel)
 
 *   **Routing SPA**: Ficheiro `vercel.json` incluído para redirecionar todas as rotas para `index.html`.
 *   **Variáveis**: Adicionar `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no painel do Vercel.
@@ -466,6 +466,6 @@ A escolha é guardada no navegador e persiste entre sessões.
 
 ---
 
-*Pronto para ficar Al-mighty? Começa o teu treino hoje.* 💪
+*Pronto para ficar Al-mighty? Começa o teu treino hoje.* 
 
 </details>
