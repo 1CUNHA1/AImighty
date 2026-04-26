@@ -388,7 +388,7 @@ The project is fully prepared for one-click deployment to **Vercel**:
 *   Exercise GIFs provided by the [omercotkd/exercises-gifs](https://github.com/omercotkd/exercises-gifs) repository (ExerciseDB dataset).
 *   UI components from [Shadcn/UI](https://ui.shadcn.com/) and [Radix Primitives](https://www.radix-ui.com/).
 *   Design and rapid prototyping assisted by the [Lovable](https://lovable.dev) AI workspace platform.
-
+*   Built with vibe coding.
 ---
 
 *Ready to become Al-mighty? Start your training today.* 
