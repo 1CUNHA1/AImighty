@@ -9,7 +9,7 @@
 
 > A cutting-edge, AI-powered fitness assistant that generates hyper-personalized workout plans, provides real-time exercise demonstrations, and sends intelligent motivational notifications — all wrapped in a premium glassmorphism dark-mode interface.
 
-**🔗 Live App:** [aimighty.vercel.app](https://aimighty.vercel.app)
+**🔗 Live App:** [almightyapp.pt](https://www.almightyapp.pt)
 
 ---
 
